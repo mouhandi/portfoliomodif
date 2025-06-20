@@ -1,0 +1,1001 @@
+<div class="download-section">
+        <button class="download-btn word" onclick="generateWordDocument()">
+            <i class="fas fa-file-word"></i>
+            Word (.doc)
+        </button>
+        <button class="download-btn" onclick="generateRTFDocument()" style="background: #17a2b8; color: white;">
+            <i class="fas fa-file-alt"></i>
+            RTF (Word)
+        </button>
+        <button class="download-btn pdf" onclick="printCV()">
+            <i class="fas fa-file-pdf"></i>
+            Imprimer PDF<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Seydina Mouhamed Ndiaye</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .cv-container {
+            max-width: 210mm;
+            margin: 2rem auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 35% 65%;
+            min-height: 297mm;
+            position: relative;
+        }
+
+        .download-section {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #2563eb;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn {
+            background: white;
+            color: #2563eb;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn.word {
+            background: #28a745;
+            color: white;
+        }
+
+        .download-btn.pdf {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Sidebar (partie gauche noire) */
+        .sidebar {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            border: 6px solid white;
+            overflow: hidden;
+            position: relative;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .profile-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .sidebar-section {
+            margin-bottom: 35px;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact-item {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .language-item {
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .language-level {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .skills-list {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .interests-list {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        /* Main content (partie droite blanche) */
+        .main-content {
+            padding: 40px;
+            background: white;
+        }
+
+        .header-section {
+            text-align: right;
+            margin-bottom: 50px;
+        }
+
+        .main-name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: 1.4rem;
+            color: #666;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            text-transform: lowercase;
+        }
+
+        .experience-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .experience-header {
+            margin-bottom: 8px;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .company-info {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .job-description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .job-description ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .job-description li {
+            margin-bottom: 6px;
+        }
+
+        .education-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .degree-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .school-info {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .portfolio-section {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 40px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dcdcdc;
+        }
+
+        .portfolio-section h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-section p {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            width: 160px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        .status-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        .status-message.error {
+            background: #dc3545;
+        }
+
+        .status-message.loading {
+            background: #007bff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cv-container {
+                grid-template-columns: 1fr;
+                margin: 1rem;
+            }
+
+            .download-section {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+
+            .profile-name {
+                font-size: 1.8rem;
+            }
+
+            .main-name {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+
+            .header-section {
+                text-align: center;
+            }
+
+            .sidebar {
+                padding: 30px 20px;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Section de téléchargement -->
+    <div class="download-section">
+        <button class="download-btn word" onclick="generateWordDocument()">
+            <i class="fas fa-file-word"></i>
+            Télécharger Word
+        </button>
+        <button class="download-btn pdf" onclick="printCV()">
+            <i class="fas fa-file-pdf"></i>
+            Imprimer PDF
+        </button>
+        <button class="download-btn" onclick="generateTextVersion()">
+            <i class="fas fa-file-alt"></i>
+            Version Texte
+        </button>
+    </div>
+
+    <!-- Message de statut -->
+    <div class="status-message" id="statusMessage"></div>
+
+    <div class="cv-container fade-in">
+        <!-- Sidebar (partie gauche) -->
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="image/WhatsApp Image 2025-06-20 à 19.50.50_ab6c1736.jpg" alt="Seydina Mouhamed Ndiaye">
+                </div>
+                <div class="profile-name">Seydina Mouhamed Ndiaye</div>
+                <div class="profile-title">Développeur Full-Stack</div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Coordonnées</h3>
+                <div class="contact-item">Dakar, Sénégal</div>
+                <div class="contact-item">
+                    <a href="mailto:seydinamouhamedndiaye471@gmail.com">seydinamouhamedndiaye471@gmail.com</a>
+                </div>
+                <div class="contact-item">+221 70 969 46 43</div>
+                <div class="contact-item">
+                    <a href="https://github.com/Mouhamedndia">github.com/Mouhamedndia</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Langues</h3>
+                <div class="language-item">
+                    Français - <span class="language-level">natif</span>
+                </div>
+                <div class="language-item">
+                    Anglais - <span class="language-level">intermédiaire</span>
+                </div>
+                <div class="language-item">
+                    Wolof - <span class="language-level">natif</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Compétences</h3>
+                <div class="skills-list">
+                    <strong>Langages</strong><br><br>
+                    Java - Avancé(en cours)<br>
+                    JavaScript/ES6+ - Avancé<br>
+                    PHP - Intermédiaire<br>
+                    Python - Intermédiaire<br>
+                    SQL - Avancé<br>
+                    HTML5/CSS3 - Avancé<br><br>
+
+                    <strong>Technologies Web</strong><br><br>
+                    React.js (en cours d'apprentissage)<br>
+                    Node.js (en cours d'apprentissage)<br>
+                    Flask<br>
+                    REST APIs (en cours d'apprentissage)<br>
+                    Responsive Design<br><br>
+
+                    <strong>Bases de données</strong><br><br>
+                    MySQL<br>
+                    PostgreSQL<br>
+                    Modélisation BDD<br><br>
+
+                    <strong>Outils & Méthodes</strong><br><br>
+                    Git/GitHub<br>
+                    VS Code, NetBeans<br>
+                    Architecture MVC<br>
+                    Méthodes Agiles<br>
+                    Design Patterns
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Centre d'intérêt</h3>
+                <div class="interests-list">
+                    <strong>Technologie</strong><br>
+                    Veille tech quotidienne<br>
+                    Contribution Open Source<br>
+                    Hackathons & side projects<br>
+                    Intelligence Artificielle<br>
+                    Cloud Computing (AWS)<br><br>
+                    
+                    <strong>Sport & Loisirs</strong><br>
+                    Football (pratique)<br>
+                    Échecs en ligne<br><br>
+                    
+                    <strong>Communauté</strong><br>
+                    Stack Overflow<br>
+                    Mentorat étudiant<br>
+                    Conférences tech virtuelles
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content (partie droite) -->
+        <div class="main-content">
+            <div class="header-section">
+                <div class="main-name">Seydina Mouhamed Ndiaye</div>
+                <div class="main-title">Développeur Full-Stack</div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Expériences professionnelles</h2>
+                
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Développeur - Projets Académiques</div>
+                        <div class="company-info">Formation Génie Logiciel | Septembre 2023 - Présent</div>
+                    </div>
+                    <div class="job-description">
+                        Développement d'applications complètes dans le cadre de la formation universitaire.
+                        <ul>
+                            <li>Conception et développement d'applications desktop en Java avec interface Swing moderne</li>
+                            <li>Création de plateformes web dynamiques utilisant PHP, JavaScript et MySQL</li>
+                            <li>Implémentation d'architectures MVC et application de design patterns</li>
+                            <li>Gestion de bases de données relationnelles et optimisation des requêtes SQL</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Développeur Web Frontend</div>
+                        <div class="company-info">Projets Personnels | Janvier 2023 - Présent</div>
+                    </div>
+                    <div class="job-description">
+                        Auto-formation et développement de projets personnels pour acquérir une expertise pratique.
+                        <ul>
+                            <li>Apprentissage autodidacte de React.js et JavaScript moderne (ES6+)</li>
+                            <li>Développement d'interfaces utilisateur responsives et interactives</li>
+                            <li>Utilisation de technologies front-end : HTML5, CSS3, JavaScript</li>
+                            <li>Collaboration via Git et participation à des communautés de développeurs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Étudiant Développeur Junior</div>
+                        <div class="company-info">Projets Étudiants | Septembre 2023 - Présent</div>
+                    </div>
+                    <div class="job-description">
+                        Initiation au développement logiciel et participation à des projets d'équipe.
+                        <ul>
+                            <li>Apprentissage des bases du développement web et de la programmation orientée objet</li>
+                            <li>Participation à des projets d'équipe sous supervision de développeurs expérimentés</li>
+                            <li>Découverte des méthodologies agiles et des bonnes pratiques de développement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Formations</h2>
+                
+                <div class="education-item">
+                    <div class="degree-title">Génie Logiciel (en cours)</div>
+                    <div class="school-info">Institut Supérieur d'Informatique (ISI), Dakar, Sénégal | 2023 - 2025</div>
+                </div>
+
+                <div class="education-item">
+                    <div class="degree-title">Baccalauréat Scientifique</div>
+                    <div class="school-info">École Cabis-School, Dakar, Sénégal | 2020 - 2023</div>
+                </div>
+
+                <div class="portfolio-section">
+                    <h2>📁 Voir mon Portfolio pour plus d'informations</h2>
+                    <p>Scannez le QR code ci-dessous avec votre téléphone pour accéder à mes projets, compétences et réalisations :</p>
+                    <div class="qr-code-container">
+                        <img src="image/qr-image.png" alt="QR Code Portfolio" class="qr-code">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour afficher les messages de statut
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            statusEl.style.display = 'block';
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Fonction principale pour générer le document Word - VERSION SIMPLIFIÉE
+        async function generateWordDocument() {
+            try {
+                showStatus('Génération du document Word en cours...', 'loading');
+
+                // Méthode alternative : génération HTML vers Word
+                const htmlContent = `
+                    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                    <head>
+                        <meta charset="utf-8">
+                        <title>CV - Seydina Mouhamed Ndiaye</title>
+                        <!--[if gte mso 9]>
+                        <xml>
+                            <w:WordDocument>
+                                <w:View>Print</w:View>
+                                <w:Zoom>100</w:Zoom>
+                                <w:DoNotPromptForConvert/>
+                                <w:DoNotShowInsertionsAndDeletions/>
+                            </w:WordDocument>
+                        </xml>
+                        <![endif]-->
+                        <style>
+                            body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.2; margin: 1in; }
+                            h1 { font-size: 24pt; text-align: center; margin-bottom: 5pt; color: #1a1a1a; }
+                            h2 { font-size: 18pt; text-align: center; margin-bottom: 15pt; color: #666; }
+                            h3 { font-size: 14pt; margin-top: 20pt; margin-bottom: 10pt; color: #1a1a1a; border-bottom: 1px solid #ccc; }
+                            h4 { font-size: 12pt; margin-top: 15pt; margin-bottom: 5pt; color: #1a1a1a; }
+                            p { margin-bottom: 8pt; }
+                            ul { margin-left: 20pt; }
+                            li { margin-bottom: 3pt; }
+                            .contact { margin-bottom: 15pt; }
+                            .experience { margin-bottom: 20pt; }
+                            .job-info { font-style: italic; color: #666; margin-bottom: 8pt; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>SEYDINA MOUHAMED NDIAYE</h1>
+                        <h2>DÉVELOPPEUR FULL-STACK</h2>
+                        
+                        <div class="contact">
+                            <h3>COORDONNÉES</h3>
+                            <p>📍 Dakar, Sénégal<br>
+                            📧 seydinamouhamedndiaye471@gmail.com<br>
+                            📞 +221 70 969 46 43<br>
+                            🔗 github.com/Mouhamedndia</p>
+                        </div>
+
+                        <h3>LANGUES</h3>
+                        <ul>
+                            <li>Français - natif</li>
+                            <li>Anglais - intermédiaire</li>
+                            <li>Wolof - natif</li>
+                        </ul>
+
+                        <h3>COMPÉTENCES</h3>
+                        <p><strong>Langages :</strong><br>
+                        Java - Avancé (en cours), JavaScript/ES6+ - Avancé, PHP - Intermédiaire, Python - Intermédiaire, SQL - Avancé, HTML5/CSS3 - Avancé</p>
+                        
+                        <p><strong>Technologies Web :</strong><br>
+                        React.js (en cours d'apprentissage), Node.js (en cours d'apprentissage), Flask, REST APIs (en cours d'apprentissage), Responsive Design</p>
+                        
+                        <p><strong>Bases de données :</strong><br>
+                        MySQL, PostgreSQL, Modélisation BDD</p>
+                        
+                        <p><strong>Outils & Méthodes :</strong><br>
+                        Git/GitHub, VS Code, NetBeans, Architecture MVC, Méthodes Agiles, Design Patterns</p>
+
+                        <h3>EXPÉRIENCES PROFESSIONNELLES</h3>
+                        
+                        <div class="experience">
+                            <h4>Développeur - Projets Académiques</h4>
+                            <p class="job-info">Formation Génie Logiciel | Septembre 2023 - Présent</p>
+                            <p>Développement d'applications complètes dans le cadre de la formation universitaire.</p>
+                            <ul>
+                                <li>Conception et développement d'applications desktop en Java avec interface Swing moderne</li>
+                                <li>Création de plateformes web dynamiques utilisant PHP, JavaScript et MySQL</li>
+                                <li>Implémentation d'architectures MVC et application de design patterns</li>
+                                <li>Gestion de bases de données relationnelles et optimisation des requêtes SQL</li>
+                            </ul>
+                        </div>
+
+                        <div class="experience">
+                            <h4>Développeur Web Frontend</h4>
+                            <p class="job-info">Projets Personnels | Janvier 2023 - Présent</p>
+                            <p>Auto-formation et développement de projets personnels pour acquérir une expertise pratique.</p>
+                            <ul>
+                                <li>Apprentissage autodidacte de React.js et JavaScript moderne (ES6+)</li>
+                                <li>Développement d'interfaces utilisateur responsives et interactives</li>
+                                <li>Utilisation de technologies front-end : HTML5, CSS3, JavaScript</li>
+                                <li>Collaboration via Git et participation à des communautés de développeurs</li>
+                            </ul>
+                        </div>
+
+                        <div class="experience">
+                            <h4>Étudiant Développeur Junior</h4>
+                            <p class="job-info">Projets Étudiants | Septembre 2023 - Présent</p>
+                            <p>Initiation au développement logiciel et participation à des projets d'équipe.</p>
+                            <ul>
+                                <li>Apprentissage des bases du développement web et de la programmation orientée objet</li>
+                                <li>Participation à des projets d'équipe sous supervision de développeurs expérimentés</li>
+                                <li>Découverte des méthodologies agiles et des bonnes pratiques de développement</li>
+                            </ul>
+                        </div>
+
+                        <h3>FORMATIONS</h3>
+                        
+                        <div class="experience">
+                            <h4>Génie Logiciel (en cours)</h4>
+                            <p class="job-info">Institut Supérieur d'Informatique (ISI), Dakar, Sénégal | 2023 - 2025</p>
+                        </div>
+
+                        <div class="experience">
+                            <h4>Baccalauréat Scientifique</h4>
+                            <p class="job-info">École Cabis-School, Dakar, Sénégal | 2020 - 2023</p>
+                        </div>
+
+                        <h3>CENTRES D'INTÉRÊT</h3>
+                        <p><strong>Technologie :</strong><br>
+                        Veille tech quotidienne, Contribution Open Source, Hackathons & side projects, Intelligence Artificielle, Cloud Computing (AWS)</p>
+                        
+                        <p><strong>Sport & Loisirs :</strong><br>
+                        Football (pratique), Échecs en ligne</p>
+                        
+                        <p><strong>Communauté :</strong><br>
+                        Stack Overflow, Mentorat étudiant, Conférences tech virtuelles</p>
+
+                        <h3>PORTFOLIO</h3>
+                        <p>📁 Voir mon Portfolio pour plus d'informations<br>
+                        Visitez mon profil GitHub pour accéder à mes projets, compétences et réalisations détaillées.</p>
+                    </body>
+                    </html>
+                `;
+
+                // Créer le blob avec le bon type MIME pour Word
+                const blob = new Blob([htmlContent], {
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                });
+
+                // Télécharger le fichier
+                saveAs(blob, "CV_Seydina_Mouhamed_Ndiaye.doc");
+                
+                showStatus('Document Word téléchargé avec succès ! 📄', 'success');
+
+            } catch (error) {
+                console.error('Erreur lors de la génération du document Word:', error);
+                showStatus('Erreur lors de la génération du document Word', 'error');
+            }
+        }
+
+        // Fonction alternative : RTF (Rich Text Format) - Compatible avec Word
+        function generateRTFDocument() {
+            showStatus('Génération du document RTF en cours...', 'loading');
+
+            const rtfContent = `{\\rtf1\\ansi\\deff0 
+{\\fonttbl {\\f0 Calibri;}}
+{\\colortbl;\\red26\\green26\\blue26;\\red102\\green102\\blue102;}
+\\f0\\fs24
+\\qc\\b\\fs36 SEYDINA MOUHAMED NDIAYE\\b0\\fs24\\par
+\\qc\\cf2\\fs28 DÉVELOPPEUR FULL-STACK\\cf0\\fs24\\par\\par
+
+\\b\\fs28 COORDONNÉES\\b0\\fs22\\par
+📍 Dakar, Sénégal\\par
+📧 seydinamouhamedndiaye471@gmail.com\\par
+📞 +221 70 969 46 43\\par
+🔗 github.com/Mouhamedndia\\par\\par
+
+\\b\\fs28 LANGUES\\b0\\fs22\\par
+• Français - natif\\par
+• Anglais - intermédiaire\\par
+• Wolof - natif\\par\\par
+
+\\b\\fs28 COMPÉTENCES\\b0\\fs22\\par
+\\b Langages :\\b0\\par
+Java - Avancé (en cours), JavaScript/ES6+ - Avancé, PHP - Intermédiaire, Python - Intermédiaire, SQL - Avancé, HTML5/CSS3 - Avancé\\par\\par
+
+\\b Technologies Web :\\b0\\par
+React.js (en cours), Node.js (en cours), Flask, REST APIs (en cours), Responsive Design\\par\\par
+
+\\b Bases de données :\\b0\\par
+MySQL, PostgreSQL, Modélisation BDD\\par\\par
+
+\\b Outils & Méthodes :\\b0\\par
+Git/GitHub, VS Code, NetBeans, Architecture MVC, Méthodes Agiles, Design Patterns\\par\\par
+
+\\b\\fs28 EXPÉRIENCES PROFESSIONNELLES\\b0\\fs22\\par\\par
+
+\\b\\fs24 Développeur - Projets Académiques\\b0\\fs22\\par
+\\cf2\\i Formation Génie Logiciel | Septembre 2023 - Présent\\i0\\cf0\\par
+Développement d'applications complètes dans le cadre de la formation universitaire.\\par
+• Conception et développement d'applications desktop en Java avec interface Swing moderne\\par
+• Création de plateformes web dynamiques utilisant PHP, JavaScript et MySQL\\par
+• Implémentation d'architectures MVC et application de design patterns\\par
+• Gestion de bases de données relationnelles et optimisation des requêtes SQL\\par\\par
+
+\\b\\fs24 Développeur Web Frontend\\b0\\fs22\\par
+\\cf2\\i Projets Personnels | Janvier 2023 - Présent\\i0\\cf0\\par
+Auto-formation et développement de projets personnels pour acquérir une expertise pratique.\\par
+• Apprentissage autodidacte de React.js et JavaScript moderne (ES6+)\\par
+• Développement d'interfaces utilisateur responsives et interactives\\par
+• Utilisation de technologies front-end : HTML5, CSS3, JavaScript\\par
+• Collaboration via Git et participation à des communautés de développeurs\\par\\par
+
+\\b\\fs24 Étudiant Développeur Junior\\b0\\fs22\\par
+\\cf2\\i Projets Étudiants | Septembre 2023 - Présent\\i0\\cf0\\par
+Initiation au développement logiciel et participation à des projets d'équipe.\\par
+• Apprentissage des bases du développement web et de la programmation orientée objet\\par
+• Participation à des projets d'équipe sous supervision de développeurs expérimentés\\par
+• Découverte des méthodologies agiles et des bonnes pratiques de développement\\par\\par
+
+\\b\\fs28 FORMATIONS\\b0\\fs22\\par\\par
+
+\\b\\fs24 Génie Logiciel (en cours)\\b0\\fs22\\par
+\\cf2\\i Institut Supérieur d'Informatique (ISI), Dakar, Sénégal | 2023 - 2025\\i0\\cf0\\par\\par
+
+\\b\\fs24 Baccalauréat Scientifique\\b0\\fs22\\par
+\\cf2\\i École Cabis-School, Dakar, Sénégal | 2020 - 2023\\i0\\cf0\\par\\par
+
+\\b\\fs28 CENTRES D'INTÉRÊT\\b0\\fs22\\par
+\\b Technologie :\\b0 Veille tech quotidienne, Contribution Open Source, Hackathons & side projects, Intelligence Artificielle, Cloud Computing (AWS)\\par\\par
+\\b Sport & Loisirs :\\b0 Football (pratique), Échecs en ligne\\par\\par
+\\b Communauté :\\b0 Stack Overflow, Mentorat étudiant, Conférences tech virtuelles\\par\\par
+
+\\b\\fs28 PORTFOLIO\\b0\\fs22\\par
+📁 Voir mon Portfolio pour plus d'informations\\par
+Visitez mon profil GitHub pour accéder à mes projets, compétences et réalisations détaillées.\\par
+}`;
+
+            const blob = new Blob([rtfContent], { type: 'application/rtf' });
+            saveAs(blob, "CV_Seydina_Mouhamed_Ndiaye.rtf");
+            
+            showStatus('Document RTF téléchargé avec succès ! Compatible Word 📄', 'success');
+        }
+
+        // Fonction pour générer une version texte simple
+        function generateTextVersion() {
+            const textContent = `
+SEYDINA MOUHAMED NDIAYE
+DÉVELOPPEUR FULL-STACK
+
+═══════════════════════════════════════════════════════════════
+
+COORDONNÉES
+───────────────────────────────────────────────────────────────
+📍 Dakar, Sénégal
+📧 seydinamouhamedndiaye471@gmail.com
+📞 +221 70 969 46 43
+🔗 github.com/Mouhamedndia
+
+LANGUES
+───────────────────────────────────────────────────────────────
+• Français - natif
+• Anglais - intermédiaire
+• Wolof - natif
+
+COMPÉTENCES
+───────────────────────────────────────────────────────────────
+Langages :
+Java - Avancé (en cours), JavaScript/ES6+ - Avancé, PHP - Intermédiaire, 
+Python - Intermédiaire, SQL - Avancé, HTML5/CSS3 - Avancé
+
+Technologies Web :
+React.js (en cours), Node.js (en cours), Flask, REST APIs (en cours), 
+Responsive Design
+
+Bases de données :
+MySQL, PostgreSQL, Modélisation BDD
+
+Outils & Méthodes :
+Git/GitHub, VS Code, NetBeans, Architecture MVC, Méthodes Agiles, 
+Design Patterns
+
+EXPÉRIENCES PROFESSIONNELLES
+───────────────────────────────────────────────────────────────
+
+Développeur - Projets Académiques
+Formation Génie Logiciel | Septembre 2023 - Présent
+
+Développement d'applications complètes dans le cadre de la formation universitaire.
+• Conception et développement d'applications desktop en Java avec interface Swing moderne
+• Création de plateformes web dynamiques utilisant PHP, JavaScript et MySQL
+• Implémentation d'architectures MVC et application de design patterns
+• Gestion de bases de données relationnelles et optimisation des requêtes SQL
+
+Développeur Web Frontend
+Projets Personnels | Janvier 2023 - Présent
+
+Auto-formation et développement de projets personnels pour acquérir une expertise pratique.
+• Apprentissage autodidacte de React.js et JavaScript moderne (ES6+)
+• Développement d'interfaces utilisateur responsives et interactives
+• Utilisation de technologies front-end : HTML5, CSS3, JavaScript
+• Collaboration via Git et participation à des communautés de développeurs
+
+Étudiant Développeur Junior
+Projets Étudiants | Septembre 2023 - Présent
+
+Initiation au développement logiciel et participation à des projets d'équipe.
+• Apprentissage des bases du développement web et de la programmation orientée objet
+• Participation à des projets d'équipe sous supervision de développeurs expérimentés
+• Découverte des méthodologies agiles et des bonnes pratiques de développement
+
+FORMATIONS
+───────────────────────────────────────────────────────────────
+
+Génie Logiciel (en cours)
+Institut Supérieur d'Informatique (ISI), Dakar, Sénégal | 2023 - 2025
+
+Baccalauréat Scientifique
+École Cabis-School, Dakar, Sénégal | 2020 - 2023
+
+CENTRES D'INTÉRÊT
+───────────────────────────────────────────────────────────────
+
+Technologie :
+Veille tech quotidienne, Contribution Open Source, Hackathons & side projects, 
+Intelligence Artificielle, Cloud Computing (AWS)
+
+Sport & Loisirs :
+Football (pratique), Échecs en ligne
+
+Communauté :
+Stack Overflow, Mentorat étudiant, Conférences tech virtuelles
+
+PORTFOLIO
+───────────────────────────────────────────────────────────────
+📁 Voir mon Portfolio pour plus d'informations
+Visitez mon profil GitHub pour accéder à mes projets, compétences et réalisations détaillées.
+
+═══════════════════════════════════════════════════════════════
+            `.trim();
+
+            // Créer et télécharger le fichier texte
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            saveAs(blob, "CV_Seydina_Mouhamed_Ndiaye.txt");
+            
+            showStatus('Version texte téléchargée avec succès ! 📝', 'success');
+        }
+
+        // Fonction d'impression pour PDF
+        function printCV() {
+            showStatus('Utilisez Ctrl+P puis "Enregistrer en PDF" 🖨️', 'loading');
+            setTimeout(() => {
+                window.print();
+                document.getElementById('statusMessage').style.display = 'none';
+            }, 1500);
+        }
+
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('.cv-container').style.opacity = '1';
+            }, 200);
+        });
+
+        // Gestion du responsive
+        function handleResize() {
+            const downloadSection = document.querySelector('.download-section');
+            if (window.innerWidth <= 768) {
+                downloadSection.style.position = 'relative';
+            } else {
+                downloadSection.style.position = 'fixed';
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+</html>

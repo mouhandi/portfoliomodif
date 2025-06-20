@@ -346,55 +346,79 @@
         }
 
         /* Profile Card */
-        .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+       .hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .profile-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            padding: var(--space-2xl);
-            border-radius: var(--space-xl);
-            box-shadow: var(--shadow-2xl);
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all var(--transition-slow);
-        }
+.profile-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    padding: var(--space-2xl);
+    border-radius: var(--space-xl);
+    box-shadow: var(--shadow-2xl);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all var(--transition-slow);
+    max-width: 300px;
+    width: 100%;
+}
 
-        .profile-card:hover {
-            transform: translateY(-10px) scale(1.02);
-        }
+.profile-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
 
-        .profile-avatar {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto var(--space-lg);
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 3rem;
-            font-weight: 900;
-            border: 4px solid var(--white);
-            box-shadow: var(--shadow-lg);
-        }
+.profile-avatar {
+    width: 150px;           /* Corrigé : même taille pour width et height */
+    height: 150px;          /* Corrigé : pour faire un cercle parfait */
+    margin: 0 auto var(--space-lg);
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 3rem;
+    font-weight: 900;
+    border: 4px solid var(--white);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;       /* Ajouté : pour que l'image respecte le border-radius */
+    position: relative;     /* Ajouté : pour un meilleur positionnement */
+}
 
-        .profile-card h3 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--gray-900);
-            margin-bottom: var(--space-sm);
-        }
+/* Styles spécifiques pour l'image dans l'avatar */
+.profile-avatar img {
+    width: 100%;            /* Ajouté : l'image remplit le conteneur */
+    height: 100%;           /* Ajouté : l'image remplit le conteneur */
+    object-fit: cover;      /* Ajouté : garde les proportions, coupe si nécessaire */
+    object-position: center;/* Ajouté : centre l'image */
+    border-radius: 50%;     /* Ajouté : assure que l'image est ronde */
+    transition: all var(--transition-base); /* Ajouté : transition fluide */
+}
 
-        .profile-card p {
-            color: var(--gray-600);
-            font-weight: 500;
-        }
+/* Effet hover sur l'image */
+.profile-avatar:hover img {
+    transform: scale(1.05); /* Ajouté : léger zoom au survol */
+}
 
+/* Fallback si l'image ne charge pas */
+.profile-avatar img:not([src]),
+.profile-avatar img[src=""] {
+    display: none;
+}
+
+.profile-card h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: var(--space-sm);
+}
+
+.profile-card p {
+    color: var(--gray-600);
+    font-weight: 500;
+}
         /* Sections */
         .section {
             padding: var(--space-3xl) 0;
@@ -972,7 +996,7 @@
                 <div class="hero-image fade-in fade-in-delay-4">
                     <div class="profile-card">
                         <div class="profile-avatar">
-                            <span>SMN</span>
+                            <img src="image/WhatsApp Image 2025-06-20 à 19.50.50_ab6c1736.jpg" alt="Seydina Mouhamed Ndiaye">
                         </div>
                         <h3>Seydina Mouhamed Ndiaye</h3>
                         <p>Développeur Full-Stack</p>
