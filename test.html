@@ -1,41 +1,394 @@
-<section style="
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  margin: 40px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid #dcdcdc;
-">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de Stage - Seydina Mouhamed Ndiaye</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <h2 style="
-    text-align: center;
-    color: #2c3e50;
-    font-size: 24px;
-    margin-bottom: 10px;
-  ">
-    📁 Voir mon Portfolio pour plus d'informations
-  </h2>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
 
-  <p style="
-    text-align: center;
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
-  ">
-    Scannez le QR code ci-dessous avec votre téléphone
-    pour accéder à mes projets, compétences et réalisations :
-  </p>
+        .download-section {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #007bff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-  <div style="text-align: center; margin: 20px 0;">
-    <img src="qr-code.png" alt="QR Code Portfolio"
-      style="width: 160px; border-radius: 12px; border: 1px solid #ccc; padding: 8px;">
-  </div>
+        .download-btn {
+            background: white;
+            color: #007bff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            text-decoration: none;
+        }
 
-  <p style="text-align: center; font-size: 15px; color: #333;">
-   
-    </a>
-  </p>
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-</section>
+        .letter-container {
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            page-break-inside: avoid;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .sender-info {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .sender-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 5px;
+        }
+
+        .sender-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .sender-contact {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .date-location {
+            text-align: right;
+            margin-bottom: 40px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .recipient {
+            margin-bottom: 40px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .recipient-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .subject {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #2563eb;
+            border-radius: 4px;
+        }
+
+        .subject-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .content {
+            text-align: justify;
+            line-height: 1.7;
+        }
+
+        .greeting {
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .paragraph {
+            margin-bottom: 20px;
+            text-indent: 20px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2563eb;
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skills-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .skills-category {
+            margin-bottom: 8px;
+        }
+
+        .skills-category strong {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .projects-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .projects-list li {
+            margin-bottom: 8px;
+        }
+
+        .closing {
+            margin-top: 40px;
+        }
+
+        .signature-section {
+            margin-top: 50px;
+            text-align: right;
+        }
+
+        .signature-text {
+            margin-bottom: 60px;
+        }
+
+        .signature-name {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .signature-title {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .attachments {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .attachments-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2563eb;
+        }
+
+        .attachments-list {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .attachments-list li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fill-blank {
+            border-bottom: 1px solid #999;
+            min-width: 150px;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .download-section {
+                display: none !important;
+            }
+
+            .letter-container {
+                margin: 0;
+                box-shadow: none;
+                padding: 40px;
+            }
+
+            @page {
+                size: A4;
+                margin: 1in;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .download-section {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .letter-container {
+                margin: 0;
+                padding: 30px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Section de téléchargement -->
+    <div class="download-section">
+        <button class="download-btn" onclick="window.print()">
+            <i class="fas fa-download"></i>
+            Télécharger PDF
+        </button>
+    </div>
+
+    <div class="letter-container">
+        <!-- En-tête -->
+        <div class="header">
+            <div class="sender-info">
+                <div class="sender-name">Seydina Mouhamed Ndiaye</div>
+                <div class="sender-title">Étudiant en Génie Logiciel (2ème année)</div>
+                <div class="sender-title">Institut Supérieur d'Informatique (ISI) - Dakar</div>
+                <div class="sender-contact">
+                    📧 seydinamouhamedndiaye471@gmail.com<br>
+                    📞 +221 70 969 46 43<br>
+                    🔗 GitHub: github.com/Mouhandi
+                </div>
+            </div>
+        </div>
+
+        <!-- Date et lieu -->
+        <div class="date-location">
+            Dakar, le <span class="fill-blank"></span>
+        </div>
+
+        <!-- Destinataire -->
+        <div class="recipient">
+            <div class="recipient-title">À l'attention de :</div>
+            <div><strong>Monsieur/Madame le/la Directeur(trice)</strong></div>
+            <div><span class="fill-blank" style="min-width: 300px;"></span></div>
+            <div><span class="fill-blank" style="min-width: 250px;"></span></div>
+            <div><span class="fill-blank" style="min-width: 200px;"></span></div>
+        </div>
+
+        <!-- Objet -->
+        <div class="subject">
+            <div class="subject-title">Objet : Demande de stage en développement informatique</div>
+        </div>
+
+        <!-- Contenu -->
+        <div class="content">
+            <div class="greeting">Monsieur/Madame le/la Directeur(trice),</div>
+
+            <div class="paragraph">
+                Actuellement étudiant en <strong>2ème année de Génie Logiciel</strong> à l'Institut Supérieur d'Informatique (ISI) de Dakar, j'ai l'honneur de solliciter de votre part l'opportunité d'effectuer un stage au sein de votre entreprise.
+            </div>
+
+            <div class="paragraph">
+                Passionné par le développement informatique, je souhaite <strong>découvrir l'espace professionnel</strong> et <strong>apprendre</strong> auprès de votre équipe expérimentée. Cette expérience me permettrait de compléter ma formation théorique par une immersion concrète dans le monde de l'entreprise.
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-briefcase"></i>
+                Mon expérience professionnelle
+            </div>
+            <div class="paragraph">
+                Bien que débutant, j'ai déjà acquis une première expérience à travers mes projets académiques et personnels. J'ai développé plusieurs applications qui m'ont permis de maîtriser les bases du développement logiciel et de comprendre les enjeux techniques du métier.
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-code"></i>
+                Mes compétences
+            </div>
+            <div class="paragraph">
+                Au cours de ma formation, j'ai développé des compétences en :
+            </div>
+            <div class="skills-list">
+                <div class="skills-category"><strong>Programmation :</strong> Java(en cour d'apprentissage), JavaScript, PHP, Python, SQL</div>
+                <div class="skills-category"><strong>Développement web :</strong> HTML5/CSS3, React.js (en apprentissage)</div>
+                <div class="skills-category"><strong>Outils :</strong> Git/GitHub, VS Code, NetBeans</div>
+                <div class="skills-category"><strong>Bases de données :</strong> MySQL, PostgreSQL</div>
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-project-diagram"></i>
+                Mes réalisations
+            </div>
+            <div class="paragraph">
+                J'ai notamment réalisé :
+            </div>
+            <ul class="projects-list">
+                <li><strong>Application de gestion de projets</strong> en Java avec interface Swing</li>
+                <li><strong>Système de vote électronique</strong> en PHP et JavaScript</li>
+                <li><strong>Plusieurs projets web</strong> avec bases de données</li>
+            </ul>
+
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                Ma motivation
+            </div>
+            <div class="paragraph">
+                Mon principal objectif est de <strong>découvrir l'environnement professionnel</strong> du développement informatique et d'<strong>apprendre</strong> les méthodes de travail en entreprise. Je suis motivé par l'idée de mettre en pratique mes connaissances théoriques et d'acquérir de nouvelles compétences auprès de professionnels expérimentés.
+            </div>
+
+          
+
+            <div class="closing">
+                <div class="paragraph">
+                    En espérant que ma demande retiendra votre attention, je vous prie d'agréer, Monsieur/Madame le/la Directeur(trice), l'expression de mes salutations respectueuses.
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature -->
+        <div class="signature-section">
+            <div class="signature-text">
+                <div class="signature-name">Seydina Mouhamed Ndiaye</div>
+                <div class="signature-title">Étudiant en Génie Logiciel</div>
+                <div style="margin-top: 30px; font-style: italic; color: #999; font-size: 10px;">Signature</div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
